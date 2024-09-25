@@ -1,4 +1,59 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  
+}
 
+body, :root, #root {
+  height: 100%;
+}
+
+/* :root {
+  font-family: Karla, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  
+} */
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F5F7FB;
+
+  background-image: url(../public/images/blob_5_yellow.png), url(../public/images/blob_5_blue.png);
+  background-repeat: no-repeat, no-repeat;
+
+  background-position: 105% -30%, -10% 120%;
+  background-size: 25% 50%, 30vw 200px;
+}
+
+.starting-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.starting-page > h1 {
+  font-family: 'karla', serif;
+  font-size: 3rem;
+}
+
+.starting-page > h3 {
+  font-family: 'inter', serif;
+  font-weight: normal;
+  margin-top: 0.75rem;
+}
+
+.btn-primary {
+  font-family: 'inter', serif;
+  font-size: 1rem;
+  background-color: #4D5B9E;
+  color: #F5F7FB;
+  border: none;
+  border-radius: 15px;
+  padding-block: .9rem;
+  padding-inline: 3rem;
+  margin-top: 2rem;
 }
