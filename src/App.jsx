@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import StartingPage from './components/StartingPage'
-import QuestionsPage from './components/QuestionsPage'
+import QuizPage from './components/QuizPage'
 import LoadingPage from './components/LoadingPage'
 import axios from 'axios'
 
@@ -65,7 +65,7 @@ function App() {
         <StartingPage quizStart={quizStart}/>
       ) : quizzicalArray.length > 0 ? 
       (
-        <QuestionsPage 
+        <QuizPage 
           quizzicalArray={quizzicalArray}
         />
       ) : 

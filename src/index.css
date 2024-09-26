@@ -56,4 +56,5 @@ body, :root, #root {
   padding-block: .9rem;
   padding-inline: 3rem;
   margin-top: 2rem;
+  cursor: pointer;
 }
