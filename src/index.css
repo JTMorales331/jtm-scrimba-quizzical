@@ -44,6 +44,7 @@ body, :root, #root {
   font-family: 'inter', serif;
   font-weight: normal;
   margin-top: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .btn-primary {
@@ -55,6 +56,5 @@ body, :root, #root {
   border-radius: 15px;
   padding-block: .9rem;
   padding-inline: 3rem;
-  margin-top: 2rem;
   cursor: pointer;
 }

@@ -2,6 +2,7 @@
   border-bottom: 2px solid #d8dee9;
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.75rem;
 }
 
 .quiz-question {
@@ -41,4 +42,15 @@ label[type="radio"]:hover {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin-right: 1.25rem;
+}
+
+.checking-container {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  gap: 10%;
+}
+
+.checking-container > h3 {
+  font-family: "Inter", serif;
 }

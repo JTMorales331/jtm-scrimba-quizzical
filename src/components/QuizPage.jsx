@@ -3,7 +3,19 @@ import { decode } from 'html-entities'
 import axios from 'axios'
 import '../quiz.css'
 
-export default function QuestionsPage( { quizzicalArray }) {
+export default function QuestionsPage( { 
+  quizzicalArray,
+}) {
+
+  // tracking number of correct answers
+  const [correctAnswers, setCorrectAnswers] = useState(0)
+
+  const [showAnswers, setShowAnswers] = useState(false)
+
+  function checkAnswers() {
+    console.log('checking answers')
+    setShowAnswers(true)
+  }
 
   // to shuffle an array and its choices. Fisher-Yates Shuffle Algorithm
   function shuffleArray(array) {
@@ -16,6 +28,7 @@ export default function QuestionsPage( { quizzicalArray }) {
   }
 
   return(
+
     <div className="quiz-container">
       {quizzicalArray.map((quiz, index) => {
 
@@ -35,13 +48,15 @@ export default function QuestionsPage( { quizzicalArray }) {
         let shuffledChoices = []
 
         // if choicesArray is more than just true or false, it shuffles array
-        // if just true or false which is max two choices, then don't shuffle array
-        choicesArray.length > 2 ? 
-        (shuffledChoices = shuffleArray(choicesArray)) :
-        (shuffledChoices = choicesArray)
+          // if just true or false which is max two choices, then don't shuffle array
+          choicesArray.length > 2 ? 
+          (shuffledChoices = shuffleArray(choicesArray)) :
+          (shuffledChoices = choicesArray)
+
 
         // stores the buttons in choices
         const choices = shuffledChoices.map((answer, index) => {
+          console.log('shuffling choices!')
           return (
             <div className="radio-choice">
               <input
@@ -59,12 +74,24 @@ export default function QuestionsPage( { quizzicalArray }) {
         })
 
         return (
-          <div className="quiz-card">
-            <h3 className="quiz-question">{decodedQuestion}</h3>
-            <div className="possible-choices">{choices}</div>
-          </div>
+          <>
+            <div className="quiz-card">
+              <h3 className="quiz-question">{decodedQuestion}</h3>
+              <div className="possible-choices">{choices}</div>
+            </div>
+          </>
         )
       })}
+      <div className="checking-container">
+        {showAnswers ? ( <h3>Your correct Answers: {correctAnswers}/5</h3> ) : ( " " )}
+        <button
+          alt="button to check correct answers"
+          className="btn-primary" 
+          onClick={() => checkAnswers()}
+        >
+          Check Answers
+        </button>
+      </div>
     </div>
   )
 }

@@ -9,12 +9,6 @@ function App() {
 
   const [isStarting, setIsStarting] = useState(false)
 
-  // tracking number of correct answers
-  const [correctAnswers, setCorrectAnswers] = useState(0)
-
-  // new array to store ALL ANSWERS. Must shuffle OR insert correct_answer to the array randomly
-  const [answersArray, setAnswersArray] = useState([])
-
   const [quizFetched, setQuizFetched] = useState(false)
 
   const [quizzicalArray, setQuizzicalArray] = useState([])
