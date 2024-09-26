@@ -19,12 +19,17 @@ export default function QuestionsPage( { quizzicalArray }) {
     <div className="quiz-container">
       {quizzicalArray.map((quiz, index) => {
 
-        console.log(quiz)
         // using html-entities, we decode quiz.question
         const decodedQuestion = decode(quiz.question)
         
+        const correctAnswer = decode(quiz.correct_answer)
+
+        const incorrectAnswers = quiz.incorrect_answers.map((answer) => {
+          return decode(answer)
+        })
+        
         // stores correct answer and incorrect answers in choicesArray
-        const choicesArray = [quiz.correct_answer, ...quiz.incorrect_answers]
+        const choicesArray = [correctAnswer, ...incorrectAnswers]
         
         // console.log('answers array: ', choicesArray)
         let shuffledChoices = []
@@ -35,13 +40,10 @@ export default function QuestionsPage( { quizzicalArray }) {
         (shuffledChoices = shuffleArray(choicesArray)) :
         (shuffledChoices = choicesArray)
 
-        // console.log("choices array: ", choicesArray)
-        // console.log("shuffled choices: ", shuffledChoices)
-
         // stores the buttons in choices
         const choices = shuffledChoices.map((answer, index) => {
           return (
-            <div className="radio-choices">
+            <div className="radio-choice">
               <input
                 key={index}
                 type="radio"
@@ -58,8 +60,8 @@ export default function QuestionsPage( { quizzicalArray }) {
 
         return (
           <div className="quiz-card">
-            <h3>{decodedQuestion}</h3>
-            {choices}
+            <h3 className="quiz-question">{decodedQuestion}</h3>
+            <div className="possible-choices">{choices}</div>
           </div>
         )
       })}
