@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { decode } from 'html-entities'
 import '../quiz.css'
 
@@ -9,7 +9,7 @@ export default function QuestionsPage( { quizzicalArray }) {
 
   const [showAnswers, setShowAnswers] = useState(false)
 
-  const [selectedAnswers, setSelectedAnswers] = useState([])
+  const [shuffledChoicesArray, setShuffledChoicesArray] = useState([])
 
   function checkAnswers() {
     setShowAnswers(() => true)
@@ -25,27 +25,41 @@ export default function QuestionsPage( { quizzicalArray }) {
     return shuffled
   }
 
+
+  // this useEffect tries to only shuffle choicesArray if and only if quizzicalArray changes
+  useEffect(() => {
+
+    const shuffledChoices = quizzicalArray.map((quiz) => {
+      const correctAnswer = decode(quiz.correct_answer)
+
+      const incorrectAnswers = quiz.incorrect_answers.map((answer) => decode(answer))
+      
+      // stores correct answer and incorrect answers in choicesArray
+      const choicesArray = shuffleArray([correctAnswer, ...incorrectAnswers])
+
+      return choicesArray
+    })
+
+    setShuffledChoicesArray(shuffledChoices)
+
+  }, [quizzicalArray]) // runs when quizzicalArray changes
+
   return(
     <div className="quiz-container">
       {quizzicalArray.map((quiz, quizIndex) => {
 
         // using html-entities, we decode quiz.question
         const decodedQuestion = decode(quiz.question)
-        
-        const correctAnswer = decode(quiz.correct_answer)
-
-        const incorrectAnswers = quiz.incorrect_answers.map((answer) => decode(answer))
-        
-        // stores correct answer and incorrect answers in choicesArray
-        const choicesArray = shuffleArray([correctAnswer, ...incorrectAnswers])
 
         return (
           <>
             <div className="quiz-card" key={quizIndex}>
               <h3 className="quiz-question">{decodedQuestion}</h3>
               <form className="possible-choices">
-                {choicesArray.map((choice, choiceIndex) => {
+                {shuffledChoicesArray[quizIndex]?.map((choice, choiceIndex) => {
+
                 console.log('shuffling choices!')
+
                 return (
                   <div className="radio-choice" key={choiceIndex}>
                     <input
