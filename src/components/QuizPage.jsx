@@ -9,10 +9,35 @@ export default function QuestionsPage( { quizzicalArray }) {
 
   const [showAnswers, setShowAnswers] = useState(false)
 
+  const [selectedAnswers, setSelectedAnswers] = useState([])
+
   const [shuffledChoicesArray, setShuffledChoicesArray] = useState([])
 
   function checkAnswers() {
     setShowAnswers(() => true)
+
+    let score = 0
+    quizzicalArray.forEach((quiz, quizIndex) => {
+
+      // gets correct answer from quizzicalArray
+      const correctAnswer = decode(quiz.correct_answer)
+      if(selectedAnswers[quizIndex] === correctAnswer) {
+        score++
+      }
+    })
+    setCorrectAnswers(score)
+  }
+
+  console.log(correctAnswers)
+
+  function handleAnswerSelect(quizIndex, selectedAnswer) {
+    console.log('handleselect: ', quizIndex, selectedAnswer)
+    setSelectedAnswers((prevSelectedAnswers) => ({
+      ...prevSelectedAnswers,
+      [quizIndex]: selectedAnswer
+    }))
+
+    console.log("list of selected answers: ", selectedAnswers)
   }
 
   // to shuffle an array and its choices. Fisher-Yates Shuffle Algorithm
@@ -67,6 +92,7 @@ export default function QuestionsPage( { quizzicalArray }) {
                       name={`question-${quizIndex}`}
                       id={`answer-${quizIndex}-${choiceIndex}`}
                       value={choice}
+                      onChange={() => handleAnswerSelect(quizIndex, choice)}
                     />
                     <label htmlFor={`answer-${quizIndex}-${choiceIndex}`}>
                       {choice}
@@ -81,7 +107,7 @@ export default function QuestionsPage( { quizzicalArray }) {
         )
       })}
       <div className="checking-container">
-        {showAnswers ? ( <h3>Your correct Answers: {correctAnswers}/5</h3> ) : ( " " )}
+        {showAnswers ? ( <h3>Your correct Answers: {correctAnswers}/{quizzicalArray.length}</h3> ) : ( " " )}
         <button
           alt="button to check correct answers"
           className="btn-primary" 
