@@ -58,3 +58,19 @@ body, :root, #root {
   padding-inline: 3rem;
   cursor: pointer;
 }
+
+.btn-secondary {
+  font-family: 'inter', serif;
+  font-size: 1rem;
+  background-color: #F5F7FB;
+  color: #4D5B9E;
+  border: 2px solid #4D5B9E;
+  border-radius: 15px;
+  padding-block: .9rem;
+  padding-inline: 3rem;
+  cursor: pointer;
+}
+
+.unclickable {
+  pointer-events: none;
+}

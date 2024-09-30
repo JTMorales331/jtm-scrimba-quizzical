@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import { decode } from 'html-entities'
 import '../quiz.css'
 
-export default function QuestionsPage( { quizzicalArray }) {
+export default function QuestionsPage( { quizzicalArray, newQuizModal }) {
+
+  console.log('QuizPage.jsx: ', quizzicalArray)
 
   // tracking number of correct answers
   const [correctAnswers, setCorrectAnswers] = useState(0)
@@ -27,8 +29,6 @@ export default function QuestionsPage( { quizzicalArray }) {
     })
     setCorrectAnswers(score)
   }
-
-  console.log(correctAnswers)
 
   function handleAnswerSelect(quizIndex, selectedAnswer) {
     console.log('handleselect: ', quizIndex, selectedAnswer)
@@ -66,56 +66,80 @@ export default function QuestionsPage( { quizzicalArray }) {
     })
 
     setShuffledChoicesArray(shuffledChoices)
+    setSelectedAnswers([])
+    setShowAnswers(false)
+    setCorrectAnswers(0)
 
   }, [quizzicalArray]) // runs when quizzicalArray changes
 
+
+  // just to check on answers
+  useEffect(() => {
+    console.log('Updated selectedAnswers: ', selectedAnswers)
+  }, [selectedAnswers])
+
   return(
-    <div className="quiz-container">
-      {quizzicalArray.map((quiz, quizIndex) => {
+    <>
+      <div className="quiz-container">
+        {quizzicalArray.map((quiz, quizIndex) => {
 
-        // using html-entities, we decode quiz.question
-        const decodedQuestion = decode(quiz.question)
+          // using html-entities, we decode quiz.question
+          const decodedQuestion = decode(quiz.question)
 
-        return (
-          <>
-            <div className="quiz-card" key={quizIndex}>
-              <h3 className="quiz-question">{decodedQuestion}</h3>
-              <form className="possible-choices">
-                {shuffledChoicesArray[quizIndex]?.map((choice, choiceIndex) => {
+          return (
+            <>
+              <div className="quiz-card" key={quizIndex}>
+                <h3 className="quiz-question">{decodedQuestion}</h3>
+                <form className="possible-choices">
+                  {shuffledChoicesArray[quizIndex]?.map((choice, choiceIndex) => {
 
-                console.log('shuffling choices!')
+                  console.log('shuffling choices!')
 
-                return (
-                  <div className="radio-choice" key={choiceIndex}>
-                    <input
-                      type="radio"
-                      name={`question-${quizIndex}`}
-                      id={`answer-${quizIndex}-${choiceIndex}`}
-                      value={choice}
-                      onChange={() => handleAnswerSelect(quizIndex, choice)}
-                    />
-                    <label htmlFor={`answer-${quizIndex}-${choiceIndex}`}>
-                      {choice}
-                    </label>
-                  </div>
-                )
-              })}
+                  return (
+                    <div className="radio-choice" key={choiceIndex}>
+                      <input
+                        type="radio"
+                        name={`question-${quizIndex}`}
+                        id={`answer-${quizIndex}-${choiceIndex}`}
+                        value={choice}
+                        onChange={() => handleAnswerSelect(quizIndex, choice)}
+                        checked={selectedAnswers[quizIndex] === choice}
+                      />
+                      <label htmlFor={`answer-${quizIndex}-${choiceIndex}`}>
+                        {choice}
+                      </label>
+                    </div>
+                  )
+                })}
 
-              </form>
-            </div>
-          </>
-        )
-      })}
-      <div className="checking-container">
-        {showAnswers ? ( <h3>Your correct Answers: {correctAnswers}/{quizzicalArray.length}</h3> ) : ( " " )}
-        <button
-          alt="button to check correct answers"
-          className="btn-primary" 
-          onClick={checkAnswers}
-        >
-          Check Answers
-        </button>
+                </form>
+              </div>
+            </>
+          )
+        })}
+        <div className="checking-container">
+          {showAnswers ? ( <h3>Your correct Answers: {correctAnswers}/{quizzicalArray.length}</h3> ) : ( " " )}
+          <button
+            alt="button to check correct answers"
+            className="btn-primary" 
+            onClick={checkAnswers}
+          >
+            Check Answers
+          </button>
+
+          {showAnswers ? (
+            <button
+              alt="button to make new quiz"
+              className="btn-primary" 
+              onClick={newQuizModal}
+            >
+              New Quiz
+            </button>
+          ) : (
+          ""  
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
