@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { decode } from 'html-entities'
-import axios from 'axios'
 import '../quiz.css'
 
-export default function QuestionsPage( { 
-  quizzicalArray,
-}) {
+export default function QuestionsPage( { quizzicalArray }) {
 
   // tracking number of correct answers
   const [correctAnswers, setCorrectAnswers] = useState(0)
 
   const [showAnswers, setShowAnswers] = useState(false)
 
+  const [selectedAnswers, setSelectedAnswers] = useState([])
+
   function checkAnswers() {
-    console.log('checking answers')
-    setShowAnswers(true)
+    setShowAnswers(() => true)
   }
 
   // to shuffle an array and its choices. Fisher-Yates Shuffle Algorithm
@@ -28,56 +26,42 @@ export default function QuestionsPage( {
   }
 
   return(
-
     <div className="quiz-container">
-      {quizzicalArray.map((quiz, index) => {
+      {quizzicalArray.map((quiz, quizIndex) => {
 
         // using html-entities, we decode quiz.question
         const decodedQuestion = decode(quiz.question)
         
         const correctAnswer = decode(quiz.correct_answer)
 
-        const incorrectAnswers = quiz.incorrect_answers.map((answer) => {
-          return decode(answer)
-        })
+        const incorrectAnswers = quiz.incorrect_answers.map((answer) => decode(answer))
         
         // stores correct answer and incorrect answers in choicesArray
-        const choicesArray = [correctAnswer, ...incorrectAnswers]
-        
-        // console.log('answers array: ', choicesArray)
-        let shuffledChoices = []
-
-        // if choicesArray is more than just true or false, it shuffles array
-          // if just true or false which is max two choices, then don't shuffle array
-          choicesArray.length > 2 ? 
-          (shuffledChoices = shuffleArray(choicesArray)) :
-          (shuffledChoices = choicesArray)
-
-
-        // stores the buttons in choices
-        const choices = shuffledChoices.map((answer, index) => {
-          console.log('shuffling choices!')
-          return (
-            <div className="radio-choice">
-              <input
-                key={index}
-                type="radio"
-                name="answer"
-                id={answer}
-                value={answer}
-              />
-              <label htmlFor={answer}>
-                {answer}
-              </label>
-            </div>
-          )
-        })
+        const choicesArray = shuffleArray([correctAnswer, ...incorrectAnswers])
 
         return (
           <>
-            <div className="quiz-card">
+            <div className="quiz-card" key={quizIndex}>
               <h3 className="quiz-question">{decodedQuestion}</h3>
-              <div className="possible-choices">{choices}</div>
+              <form className="possible-choices">
+                {choicesArray.map((choice, choiceIndex) => {
+                console.log('shuffling choices!')
+                return (
+                  <div className="radio-choice" key={choiceIndex}>
+                    <input
+                      type="radio"
+                      name={`question-${quizIndex}`}
+                      id={`answer-${quizIndex}-${choiceIndex}`}
+                      value={choice}
+                    />
+                    <label htmlFor={`answer-${quizIndex}-${choiceIndex}`}>
+                      {choice}
+                    </label>
+                  </div>
+                )
+              })}
+
+              </form>
             </div>
           </>
         )
@@ -87,7 +71,7 @@ export default function QuestionsPage( {
         <button
           alt="button to check correct answers"
           className="btn-primary" 
-          onClick={() => checkAnswers()}
+          onClick={checkAnswers}
         >
           Check Answers
         </button>
