@@ -7,7 +7,7 @@
 
 .quiz-question {
   font-family: 'karla', serif;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .radio-choice {
@@ -32,7 +32,7 @@ label[type="radio"]:hover {
 }
 
 .radio-choice > label {
-  font-size: 1rem;
+  font-size: .8rem;
   font-family: 'inter', serif;
   padding: 0.2rem 1rem;
   border: 2px solid #4D5B9E;

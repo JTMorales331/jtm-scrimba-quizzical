@@ -49,7 +49,7 @@ body, :root, #root {
 
 .btn-primary {
   font-family: 'inter', serif;
-  font-size: 1rem;
+  font-size: 0.8rem;
   background-color: #4D5B9E;
   color: #F5F7FB;
   border: none;
@@ -73,4 +73,5 @@ body, :root, #root {
 
 .unclickable {
   pointer-events: none;
+  opacity: 0.5;
 }
