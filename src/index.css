@@ -20,7 +20,7 @@ body, :root, #root {
   align-items: center;
   background-color: #F5F7FB;
 
-  background-image: url(public/images/blob_5_yellow.png), url(public/images/blob_5_blue.png);
+  background-image: url(/images/blob_5_yellow.png), url(/images/blob_5_blue.png);
   background-repeat: no-repeat, no-repeat;
 
   background-position: 105% -30%, -10% 120%;
